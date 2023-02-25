@@ -1,13 +1,17 @@
+import os
 from hashlib import sha256
+from pathlib import Path
 
 import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
+RAW_DATA_PATH = Path(os.getenv("RAW_DATA_PATH"))
 
 RELEVANT_COLS = ["Kollégista", "Tanév", "Kurzus neve", "Eredmény", "Félév", "Típus"]
 
 df = (
-    pd.read_excel(
-        "kurzusadatbázis (2014–től).xlsx", sheet_name="összes kollégista-kurzus"
-    )
+    pd.read_excel(RAW_DATA_PATH, sheet_name="összes kollégista-kurzus")
     .filter(RELEVANT_COLS, axis=1)
     .rename(
         columns={
